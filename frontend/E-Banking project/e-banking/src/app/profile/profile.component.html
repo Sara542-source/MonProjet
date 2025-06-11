@@ -1,0 +1,55 @@
+<div class="container mt-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+      <i class="bi bi-person fs-4 me-2"></i>
+      <h5 class="mb-0">Profil Utilisateur</h5>
+    </div>
+    <div class="card-body bg-light">
+      <ng-container *ngIf="client">
+        <p><strong>Prénom :</strong> {{ client?.fname }}</p>
+        <p><strong>Nom :</strong> {{ client?.lname }}</p>
+        <p><strong>email :</strong> {{ client?.email }}</p>
+
+        <!-- Ajoute d'autres infos si tu veux -->
+      </ng-container>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="loading">Chargement...</div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mt-4">
+    <div class="card-header bg-secondary text-white d-flex align-items-center">
+      <i class="bi bi-list-columns-reverse me-2 fs-4"></i>
+      <h5 class="mb-0">Historique des transactions</h5>
+    </div>
+    <div class="card-body bg-light">
+      <table class="table table-bordered table-hover" *ngIf="transactions.length > 0; else noTransac">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Montant</th>
+            <th>Type</th>
+            <th>Type Transaction</th>
+            <th>Date</th>
+            <th>Compte émetteur</th>
+            <th>Compte destinataire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of transactions">
+            <td>{{ t.transactionId }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.type }}</td>
+            <td>{{ t.typeTransaction }}</td>
+            <td>{{ t.date }}</td> <!-- à adapter si date complexe -->
+            <td>{{ t.senderAccount?.accountNumber }}</td>
+            <td>{{ t.receiverAccount?.accountNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noTransac>
+        <div class="alert alert-info">...loading Transactions</div>
+      </ng-template>
+    </div>
+  </div>
+</div>

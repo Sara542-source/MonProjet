@@ -1,0 +1,20 @@
+<h2>Mes Comptes</h2>
+<div class="cards-container">
+  <div class="bank-card" *ngFor="let account of accounts">
+    <div class="chip"></div>
+    <div class="account-number">{{ account.accountNumber  }}</div>
+    <div class="card-details">
+      <div class="creation-date">
+    <!--  Créée le: {{ account.creationDate | date:'MM/yyyy' }}-->
+      Crée le: {{ account.creationDate?.[0]}}/{{ account.creationDate?.[1]}}
+      
+      </div>
+      <div class="balance">
+        {{ account.balance | number:'1.2-2' }} €
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="accounts.length === 0">
+  <p>...loading accounts</p>
+</div>

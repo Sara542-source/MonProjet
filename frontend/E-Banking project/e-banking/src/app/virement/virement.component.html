@@ -1,0 +1,240 @@
+<div class="container mt-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white d-flex align-items-center">
+      <i class="bi bi-bank2 me-2 fs-4"></i>
+      <h5 class="mb-0">Virement Bancaire</h5>
+    </div>
+    <div class="card-body bg-light">
+      <form (ngSubmit)="submitVirement()" #virementForm="ngForm" class="needs-validation" novalidate>
+<!--"ngForm" indique à Angular d’appliquer la directive NgForm, qui donne accès à toutes les propriétés du formulaire (validité, erreurs, etc.).-->
+
+<!--iici la partie de choix du compte adecuter -->
+        
+    <div class="mb-3">
+  <button type="button" class="btn btn-outline-secondary w-100" (click)="openCompteModal()"><!--button signifie button secondaire et c ets pas lui qui envoie leformulaire-->
+   <i class="bi bi-wallet2 me-2"></i>
+    Choisir un compte à débiter
+  </button>
+</div>
+
+
+<div class="modal-backdrop-custom" *ngIf="showModal"><!--La modale s’affiche seulement si showModal est vrai (grâce à *ngIf="showModal").-->
+  <div class="modal-custom">
+    <div class="modal-header d-flex justify-content-between align-items-center">
+      <h5 class="modal-title">Choisissez un compte</h5>
+      <button type="button" class="btn-close" aria-label="Fermer" (click)="closeCompteModal()"></button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngFor="let compte of comptes" class="card mb-2 shadow-sm" (click)="selectCompte(compte)">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted small">{{ compte.rib }}</div>
+            <div class="fw-bold">{{ compte.nom }}</div>
+          </div>
+          <div class="fw-bold text-success">{{ compte.solde | currency:'EUR' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="mb-3">
+          <label for="senderAccountId" class="form-label">Compte Émetteur</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+            <input
+              type="number"
+              class="form-control"
+              id="senderAccountId"
+              name="senderAccountId"
+              required
+              [(ngModel)]="virement.senderAccountId"
+            />
+          </div>
+        </div>
+        
+
+<!--la partie de choix du compte adecuter termine ici-->
+
+
+</form>
+       
+
+    
+
+
+
+        <!-- Modal récapitulatif -->
+<div *ngIf="showRecapModal" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="modal-title">Récapitulatif du virement</h2>
+    <div class="modal-body">
+    <p><strong>Compte à débiter </strong> {{ virement.senderAccountId }}</p>
+    <p><strong>Bénéficiaire </strong> {{ virement.receiverAccountId }}</p>
+    <p><strong>Montant </strong> {{ virement.amount }} €</p>
+    <p><strong>Type de virement </strong> {{ virement.type }}</p>
+    </div>
+    <div class="recap-buttons">
+      <button class="btn btn-secondary" (click)="modifier()">Modifier</button>
+      <button class="btn btn-success" (click)="confirmRecap()">Continuer</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!--verification d epssword-->
+<div class="modal" *ngIf="showPasswordModal">
+  <div class="modal-content">
+    <span class="close" (click)="showPasswordModal = false">&times;</span>
+    <h2 class="modal-title">Vérification de sécurité</h2>
+
+    <p>Veuillez confirmer votre identité pour valider le virement.</p>
+
+    <div class="form-group">
+      <label for="password">Mot de passe :</label>
+      
+      <input type="password" id="password" [(ngModel)]="userPassword"  [ngModelOptions]="{standalone: true}" placeholder="Entrez votre mot de passe" name="userPassword" />
+      
+    </div>
+
+    <p style="text-align: center; margin: 10px 0;">ou</p>
+
+    <div style="text-align: center;">
+      <button class="btn-fingerprint" (click)="useFingerprint()">Utiliser l’empreinte</button>
+    </div>
+
+    <div class="actions">
+      <button class="btn-confirm" (click)="submitPassword()">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+        <div class="mb-3">
+          <label for="receiverAccountId" class="form-label">Compte Récepteur</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+            <input
+              type="number"
+              class="form-control"
+              id="receiverAccountId"
+              name="receiverAccountId"
+              required
+              [(ngModel)]="virement.receiverAccountId"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Montant</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+            <input
+              type="number"
+              class="form-control"
+              id="amount"
+              name="amount"
+              required
+              min="0.01"
+              step="0.01"
+              [(ngModel)]="virement.amount"
+            />
+          </div>
+        </div>
+
+
+
+
+
+
+ <div class="mb-4">
+        <label class="form-label fw-bold">Choisissez le type de virement</label>
+        <div class="d-flex gap-3 flex-wrap">
+
+          <label
+            class="btn btn-outline-primary flex-fill text-center"
+            [class.active]="virement.type === 'classique'"
+            (click)="virement.type = 'classique'">
+            <input type="radio" name="type" value="classique" [(ngModel)]="virement.type" hidden />
+            <i class="bi bi-clock-history fs-3 mb-2"></i>
+            <div>Classique</div>
+          </label>
+
+          <label
+            class="btn btn-outline-primary flex-fill text-center"
+            [class.active]="virement.type === 'instantane'"
+            (click)="virement.type = 'instantane'">
+            <input type="radio" name="type" value="instantane" [(ngModel)]="virement.type" hidden />
+            <i class="bi bi-lightning-charge fs-3 mb-2"></i>
+            <div>Instantané</div>
+          </label>
+
+          <label
+            class="btn btn-outline-primary flex-fill text-center"
+            [class.active]="virement.type === 'permanent'"
+            (click)="virement.type = 'permanent'">
+            <input type="radio" name="type" value="permanent" [(ngModel)]="virement.type" hidden />
+            <i class="bi bi-repeat fs-3 mb-2"></i>
+            <div>Permanent</div>
+          </label>
+
+          <label
+            class="btn btn-outline-primary flex-fill text-center"
+            [class.active]="virement.type === 'differe'"
+            (click)="virement.type = 'differe'">
+            <input type="radio" name="type" value="differe" [(ngModel)]="virement.type" hidden />
+            <i class="bi bi-calendar fs-3 mb-2"></i>
+            <div>Différé</div>
+          </label>
+
+        </div>
+     </div>
+
+
+<!--
+
+    
+<div class="modal-overlay" *ngIf="showResultModal">
+  <div class="modal-container text-center">
+    <div *ngIf="transactionSuccess">
+      <div class="icon-success">
+        <i class="bi bi-check-circle-fill animate-success"></i>
+        <h3>Virement effectué avec succès !</h3>
+      </div>
+    </div>
+
+    <div *ngIf="!transactionSuccess">
+      <div class="icon-failure">
+        <i class="bi bi-x-circle-fill animate-failure"></i>
+        <h3>{{ errorMessage }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+        <div class="d-grid">
+           <div class="d-grid">
+    <button type="button" class="btn btn-primary"
+      [disabled]="!virementForm.form.valid"
+      (click)="ouvrirRecapitulatif()">
+      <i class="bi bi-send me-1"></i> Envoyer le Virement
+    </button>
+  </div>
+        </div>
+      <!--</form>-->
+
+      <div *ngIf="message" class="alert alert-info mt-4">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>

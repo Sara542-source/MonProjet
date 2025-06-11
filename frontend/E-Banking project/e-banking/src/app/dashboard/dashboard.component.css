@@ -1,0 +1,57 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+app-sidebar {
+  width: 220px;
+  background: #1119f7;
+  color: #fff;
+  min-height: 60vh;
+  padding: 32px 0 0 0;
+  box-shadow: 2px 0 8px #2685cd08;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 40px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Sidebar links styles */
+app-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+app-sidebar li {
+  margin-bottom: 18px;
+}
+
+app-sidebar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1em;
+  display: block;
+  padding: 10px 24px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+app-sidebar a.active,
+app-sidebar a:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+
+/* Responsive: hides sidebar on small screens */
+@media (max-width: 800px) {
+  app-sidebar {
+    display: none;
+  }
+  .dashboard-main {
+    padding: 16px;
+  }
+}

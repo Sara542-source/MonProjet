@@ -1,0 +1,62 @@
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.bank-card {
+  background: linear-gradient(135deg, #2d3436, #636e72 90%);
+  color: #fff;
+  width: 340px;
+  height: 200px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 24px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
+}
+.bank-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.47);
+}
+
+.chip {
+  width: 50px;
+  height: 36px;
+  background: linear-gradient(135deg, #ffe066, #ffd700 60%, #ffec99 100%);
+  border-radius: 8px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.account-number {
+  text-align: center;
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 35px;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.creation-date {
+  align-self: flex-end;
+  font-size: 0.98rem;
+  color: #dfe6e9;
+}
+
+.balance {
+  align-self: flex-end;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffe066;
+}

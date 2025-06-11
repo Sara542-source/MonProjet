@@ -1,0 +1,15 @@
+<div class="client-container">
+  <h2>Bienvenue, {{ currentClient?.fname }} {{ currentClient?.lname }}</h2>
+  
+  <div class="client-info">
+    <p><strong>Email:</strong> {{ currentClient?.email }}</p>
+    <p><strong>Téléphone:</strong> {{ currentClient?.phone }}</p>
+    <p><strong>Adresse:</strong> {{ currentClient?.adresse }}</p>
+  </div>
+
+  <div class="actions">
+    <button routerLink="/client/accounts" class="btn btn-primary">Gérer mes comptes</button>
+    <button routerLink="/client/profile" class="btn btn-secondary">Modifier mon profil</button>
+    <button (click)="logout()" class="btn btn-danger">Déconnexion</button>
+  </div>
+</div>

@@ -1,0 +1,3 @@
+[submodule "frontend/E-Banking project/e-banking"]
+	path = frontend/E-Banking project/e-banking
+	url = https://url-de-votre-depot-e-banking.git
