@@ -1,0 +1,31 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend/E-Banking_front/e-banking
+      dockerfile: Dockerfile.prod
+    env_file: .env
+    ports:
+      - "80:80"
+    networks:
+      - app-net
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend/E-BankingApp3
+    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=${DB_SSL_MODE}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: "9097"
+    ports:
+      - "9097:9097"
+    networks:
+      - app-net
+
+networks:
+  app-net:

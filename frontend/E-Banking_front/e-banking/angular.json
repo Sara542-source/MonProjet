@@ -44,11 +44,11 @@
           },
           "configurations": {
             "production": {
+              "ssr": false,
+    "prerender": false,
               "budgets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                 
                 },
                 {
                   "type": "anyComponentStyle",
